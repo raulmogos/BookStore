@@ -1,6 +1,7 @@
 package Models;
 
 public class Book extends BaseEntity<Long> {
+    private Long Id;
     private String title;
     private String author;
     private int price;
@@ -8,7 +9,8 @@ public class Book extends BaseEntity<Long> {
     public Book() {
     }
 
-    public Book(String title, String author, int price) {
+    public Book(Long ID, String title, String author, int price) {
+        this.Id = ID;
         this.title = title;
         this.author = author;
         this.price = price;
@@ -36,5 +38,20 @@ public class Book extends BaseEntity<Long> {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Book - ID = " + Long.toString(Id) + ", title = " + title + ", author = " + author + ", price = " + Integer.toString(price) + ";";
+    }
+
+    @Override
+    public Long getId() {
+        return Id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        Id = id;
     }
 }
