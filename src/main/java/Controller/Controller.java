@@ -1,30 +1,55 @@
 package Controller;
 
 import Models.Book;
+import Models.Client;
 import Models.Validation.BookValidator;
+import Models.Validation.ClientValidator;
 import Models.Validation.ValidatorException;
 import Repository.InMemoryRepository;
 
 public class Controller {
     private InMemoryRepository<Long, Book> books;
+    private InMemoryRepository<Long, Client> clients;
     private static Long bookID = 1L;
+    private static Long clientID = 1L;
 
     public Controller() {
         books = new InMemoryRepository<>(new BookValidator());
+        clients = new InMemoryRepository<>(new ClientValidator());
     }
 
-    private static Long getBookID() {
+    private static Long generateBookId() {
         Long id = bookID;
         bookID ++;
         return id;
     }
 
+    private static Long generateClientId() {
+        Long id = clientID;
+        clientID ++;
+        return id;
+    }
+
     public void addBook(String title, String author, int price) throws ValidatorException {
-        Book book = new Book(Controller.getBookID(), title, author, price);
+        Book book = new Book(Controller.generateBookId(), title, author, price);
         books.save(book);
+    }
+
+    public void addClient(String firstName, String lastName, int moneySpent) throws ValidatorException {
+        Client client = new Client(Controller.generateClientId(), firstName, lastName, moneySpent);
+        clients.save(client);
+    }
+
+    public void addClient(String firstName, String lastName) throws ValidatorException {
+        Client client = new Client(Controller.generateClientId(), firstName, lastName, 0 );
+        clients.save(client);
     }
 
     public Iterable<Book> getAllBooks() {
         return books.findAll();
+    }
+
+    public Iterable<Client> getAllClients() {
+        return clients.findAll();
     }
 }

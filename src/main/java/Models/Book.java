@@ -42,7 +42,7 @@ public class Book extends BaseEntity<Long> {
 
     @Override
     public String toString() {
-        return "Book - ID = " + Long.toString(Id) + ", title = " + title + ", author = " + author + ", price = " + Integer.toString(price) + ";";
+        return "Book - ID = " + Id + ", title = " + title + ", author = " + author + ", price = " + price + ";";
     }
 
     @Override

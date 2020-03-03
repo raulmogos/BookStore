@@ -2,6 +2,7 @@ package UI;
 
 import Controller.Controller;
 import Models.Book;
+import Models.Client;
 import Models.Validation.ValidatorException;
 
 import java.io.BufferedReader;
@@ -64,7 +65,6 @@ public class Console {
             author = reader.readLine();
             System.out.println("Book price:");
             price = reader.readLine();
-
             controller.addBook(title, author, Integer.parseInt(price));
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,17 +74,28 @@ public class Console {
     }
 
     private void addClient() {
-
+        String firstName, lastName;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Client first name:");
+            firstName = reader.readLine();
+            System.out.println("Client last name:");
+            lastName = reader.readLine();
+            controller.addClient(firstName, lastName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ValidatorException error) {
+            System.out.println(error.getMessage());
+        }
     }
 
     private void printBooks() {
         Iterable<Book> books = controller.getAllBooks();
-        for (Book book : books) {
-            System.out.println(book.toString());
-        }
+        books.forEach(System.out::println);
     }
 
     private void printClients() {
-
+        Iterable<Client> clients = controller.getAllClients();
+        clients.forEach(System.out::println);
     }
 }
