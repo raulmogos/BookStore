@@ -2,8 +2,7 @@ package Controller;
 
 import Models.Book;
 import Models.Client;
-import Models.Validation.BookValidator;
-import Models.Validation.ClientValidator;
+import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
 import Repository.InMemoryRepository;
 
@@ -13,9 +12,9 @@ public class Controller {
     private static Long bookID = 1L;
     private static Long clientID = 1L;
 
-    public Controller() {
-        books = new InMemoryRepository<>(new BookValidator());
-        clients = new InMemoryRepository<>(new ClientValidator());
+    public Controller(InMemoryRepository<Long, Book> books, InMemoryRepository<Long, Client> clients) {
+        this.books = books;
+        this.clients = clients;
     }
 
     private static Long generateBookId() {
@@ -51,5 +50,31 @@ public class Controller {
 
     public Iterable<Client> getAllClients() {
         return clients.findAll();
+    }
+
+    public void updateBook(Long ID, String title, String author, int price) throws Exception, ValidatorException {
+        if (!books.findOne(ID).isPresent()) {
+            throw new Exception("Book ID not found");
+        }
+        Book book = books.findOne(ID).get();
+        if (!title.equals("")) {
+            book.setTitle(title);
+        }
+        if (!author.equals("")) {
+            book.setAuthor(title);
+        }
+        if (price >= 0) {
+            book.setPrice(price);
+        }
+
+        books.update(book);
+    }
+
+    public void deleteBook(Long ID) throws Exception {
+        if (!books.findOne(ID).isPresent()) {
+            throw new Exception("Book ID not found");
+        }
+
+        books.delete(ID);
     }
 }
