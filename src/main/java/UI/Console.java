@@ -161,7 +161,6 @@ public class Console {
     private void deleteBook() {
         String ID;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         try {
             System.out.println("Book ID:");
             ID = reader.readLine();
@@ -179,7 +178,7 @@ public class Console {
         String id;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            System.out.println("Book ID:"); id = reader.readLine();
+            System.out.println("Client ID:"); id = reader.readLine();
             controller.deleteClient(Long.parseLong(id));
             System.out.println("Client deleted Successfully");
         } catch (IOException e) {
