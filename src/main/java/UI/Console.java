@@ -16,15 +16,17 @@ import java.io.InputStreamReader;
 public class Console {
     private Controller controller;
 
+    public Console(Controller controller) {
+        this.controller = controller;
+    }
+
     public void runConsole() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        InMemoryRepository<Long, Book> bookRepository = new InMemoryRepository<>(new BookValidator());
-        InMemoryRepository<Long, Client> clientRepository = new InMemoryRepository<>(new ClientValidator());
-        controller = new Controller(bookRepository, clientRepository);
 
         while (true) {
             System.out.println("\n");
             System.out.println("Menu:");
+            System.out.println("0 - Exit");
             System.out.println("1 - Add Book");
             System.out.println("2 - Add Client");
             System.out.println("3 - Show Books");
@@ -33,11 +35,12 @@ public class Console {
             System.out.println("6 - Update Client");
             System.out.println("7 - Delete Book");
             System.out.println("8 - Delete Client");
-            System.out.println("9 - Exit");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
                 switch (intChoice) {
+                    case 0:
+                        return;
                     case 1:
                         addBook();
                         break;
@@ -62,8 +65,6 @@ public class Console {
                     case 8:
                         deleteClient();
                         break;
-                    case 9:
-                        return;
                     default:
                         System.out.println("Invalid choice");
                 }
@@ -141,7 +142,20 @@ public class Console {
         }
     }
     private void updateClient() {
-
+        String id, firstName, lastName, moneySpent;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Client ID:"); id = reader.readLine();
+            System.out.println("New client first name (blank if unchanged): "); firstName = reader.readLine();
+            System.out.println("New client last name (blank if unchanged):"); lastName = reader.readLine();
+            System.out.println("New money spent (-1 if unchanged): "); moneySpent = reader.readLine();
+            controller.updateClient(Long.parseLong(id), firstName, lastName, Integer.parseInt(moneySpent));
+            System.out.println("Client Updated Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception | ValidatorException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private void deleteBook() {
