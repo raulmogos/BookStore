@@ -17,6 +17,7 @@ public class Controller {
         this.clients = clients;
     }
 
+    // git merge --no--ff my_feature_branch
     private static Long generateBookId() {
         Long id = bookID;
         bookID ++;
