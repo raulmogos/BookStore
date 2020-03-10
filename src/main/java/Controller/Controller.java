@@ -92,4 +92,11 @@ public class Controller {
          }
          clients.update(client);
      }
+
+     public void deleteClient(Long id) throws Exception {
+         if (!clients.findOne(id).isPresent()) {
+             throw new Exception("Client ID not found");
+         }
+         clients.delete(id);
+     }
 }

@@ -176,6 +176,16 @@ public class Console {
     }
 
     private void deleteClient() {
-
+        String id;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Book ID:"); id = reader.readLine();
+            controller.deleteClient(Long.parseLong(id));
+            System.out.println("Client deleted Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 }
