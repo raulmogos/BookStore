@@ -35,6 +35,7 @@ public class Console {
             System.out.println("6 - Update Client");
             System.out.println("7 - Delete Book");
             System.out.println("8 - Delete Client");
+            System.out.println("9 - Register Purchase");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -64,6 +65,9 @@ public class Console {
                         break;
                     case 8:
                         deleteClient();
+                        break;
+                    case 9:
+                        buyBook();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -185,6 +189,21 @@ public class Console {
             e.printStackTrace();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
+        }
+    }
+
+    private void buyBook() {
+        String bookID, clientID;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Book ID:");
+            bookID = reader.readLine();
+            System.out.println("Client ID:");
+            clientID = reader.readLine();
+            controller.buyBook(Long.parseLong(bookID), Long.parseLong(clientID));
+            System.out.println("Book purchase successfully registered");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

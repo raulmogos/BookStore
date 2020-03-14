@@ -100,4 +100,19 @@ public class Controller {
          }
          clients.delete(id);
      }
+
+     public void buyBook(Long bookID, Long clientID) {
+        if (!books.findOne(bookID).isPresent()) {
+            throw new Exception("Book ID not found");
+        }
+        if (!clients.findOne(clientID).isPresent()) {
+            throw new Exception("Client ID not found");
+        }
+        Book book = books.findOne(bookID).get();
+        Client client = clients.findOne(clientID).get();
+        client.setMoneySpent(client.getMoneySpent() + book.getPrice());
+
+        books.delete(bookID);
+        clients.update(client);
+     }
 }
