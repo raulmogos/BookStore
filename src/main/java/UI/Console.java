@@ -37,6 +37,7 @@ public class Console {
             System.out.println("8 - Delete Client");
             System.out.println("9 - Register Purchase");
             System.out.println("10 - Filter Books by Author");
+            System.out.println("11 - Filter Books by Price");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -72,6 +73,9 @@ public class Console {
                         break;
                     case 10:
                         filterBookAuthor();
+                        break;
+                    case 11:
+                        filterBookPrice();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -218,6 +222,21 @@ public class Console {
             System.out.println("Author:");
             author = reader.readLine();
             Iterable<Book> books = controller.filterBookAuthor(author);
+            books.forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void filterBookPrice() {
+        String min, max;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Minimum price:");
+            min = reader.readLine();
+            System.out.println("Maximum price:");
+            max = reader.readLine();
+            Iterable<Book> books = controller.filterBookPrice(Integer.parseInt(min), Integer.parseInt(max));
             books.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
