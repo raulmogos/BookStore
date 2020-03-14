@@ -1,6 +1,6 @@
 package Models.Validation;
 
-public class Exception extends Throwable {
+public class Exception extends RuntimeException {
     public Exception(String message) {
         super(message);
     }
