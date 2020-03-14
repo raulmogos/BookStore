@@ -36,6 +36,7 @@ public class Console {
             System.out.println("7 - Delete Book");
             System.out.println("8 - Delete Client");
             System.out.println("9 - Register Purchase");
+            System.out.println("10 - Filter Books by Author");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -68,6 +69,9 @@ public class Console {
                         break;
                     case 9:
                         buyBook();
+                        break;
+                    case 10:
+                        filterBookAuthor();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -202,6 +206,19 @@ public class Console {
             clientID = reader.readLine();
             controller.buyBook(Long.parseLong(bookID), Long.parseLong(clientID));
             System.out.println("Book purchase successfully registered");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void filterBookAuthor() {
+        String author;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Author:");
+            author = reader.readLine();
+            Iterable<Book> books = controller.filterBookAuthor(author);
+            books.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
