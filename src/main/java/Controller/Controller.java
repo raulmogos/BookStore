@@ -125,8 +125,18 @@ public class Controller {
         List<Book> list = new ArrayList<>();
         bookList.forEach(list::add);
 
-         return list.stream()
+        return list.stream()
                  .filter(book -> book.getAuthor().equals(author))
                  .collect(Collectors.toList());
+     }
+
+     public Iterable<Book> filterBookPrice(int min, int max) {
+        Iterable<Book> bookList = books.findAll();
+        List<Book> list = new ArrayList<>();
+        bookList.forEach(list::add);
+
+        return list.stream()
+                .filter(book -> book.getPrice() >= min && book.getPrice() <= max)
+                .collect(Collectors.toList());
      }
 }
