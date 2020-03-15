@@ -3,11 +3,8 @@ package UI;
 import Controller.Controller;
 import Models.Book;
 import Models.Client;
-import Models.Validation.BookValidator;
-import Models.Validation.ClientValidator;
 import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
-import Repository.InMemoryRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,6 +35,8 @@ public class Console {
             System.out.println("9 - Register Purchase");
             System.out.println("10 - Filter Books by Author");
             System.out.println("11 - Filter Books by Price");
+            System.out.println("12 - Show Available Books");
+            System.out.println("13 - Show Sold Books");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -76,6 +75,12 @@ public class Console {
                         break;
                     case 11:
                         filterBookPrice();
+                        break;
+                    case 12:
+                        filterBookAvailable(true);
+                        break;
+                    case 13:
+                        filterBookAvailable(false);
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -241,5 +246,9 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void filterBookAvailable(boolean availability) {
+        controller.filterBookAvailable(availability).forEach(System.out::println);
     }
 }

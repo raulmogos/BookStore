@@ -105,7 +105,7 @@ public class Controller {
          clients.delete(id);
      }
 
-     public void buyBook(Long bookID, Long clientID) {
+     public void buyBook(Long bookID, Long clientID) throws Exception {
         if (!books.findOne(bookID).isPresent()) {
             throw new Exception("Book ID not found");
         }
@@ -142,6 +142,16 @@ public class Controller {
 
         return list.stream()
                 .filter(book -> book.getPrice() >= min && book.getPrice() <= max)
+                .collect(Collectors.toList());
+     }
+
+     public Iterable<Book> filterBookAvailable(boolean availability) {
+        Iterable<Book> bookList = books.findAll();
+        List<Book> list = new ArrayList<>();
+        bookList.forEach(list::add);
+
+        return list.stream()
+                .filter(book -> book.isAvailable() == availability)
                 .collect(Collectors.toList());
      }
 }
