@@ -6,6 +6,10 @@ import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
 import Repository.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Controller {
     private Repository<Long, Book> books;
     private Repository<Long, Client> clients;
@@ -114,5 +118,25 @@ public class Controller {
 
         books.delete(bookID);
         clients.update(client);
+     }
+
+     public Iterable<Book> filterBookAuthor(String author) {
+        Iterable<Book> bookList = books.findAll();
+        List<Book> list = new ArrayList<>();
+        bookList.forEach(list::add);
+
+        return list.stream()
+                 .filter(book -> book.getAuthor().equals(author))
+                 .collect(Collectors.toList());
+     }
+
+     public Iterable<Book> filterBookPrice(int min, int max) {
+        Iterable<Book> bookList = books.findAll();
+        List<Book> list = new ArrayList<>();
+        bookList.forEach(list::add);
+
+        return list.stream()
+                .filter(book -> book.getPrice() >= min && book.getPrice() <= max)
+                .collect(Collectors.toList());
      }
 }
