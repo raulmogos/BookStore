@@ -5,6 +5,8 @@ public class Book extends BaseEntity<Long> {
     private String title;
     private String author;
     private int price;
+    private Long ownerId;
+    private boolean available;
 
     public Book() {
     }
@@ -14,6 +16,8 @@ public class Book extends BaseEntity<Long> {
         this.title = title;
         this.author = author;
         this.price = price;
+        this.ownerId = null;
+        this.available = true;
     }
 
     public String getTitle() {
@@ -42,7 +46,11 @@ public class Book extends BaseEntity<Long> {
 
     @Override
     public String toString() {
-        return "Book - ID = " + Id + ", title = " + title + ", author = " + author + ", price = " + price + ";";
+        String string =  "Book - ID = " + Id + ", title = " + title + ", author = " + author + ", price = " + price;
+        if (!available)
+            string += ", owner ID = " + ownerId;
+        string += ";";
+        return string;
     }
 
     @Override
@@ -53,5 +61,18 @@ public class Book extends BaseEntity<Long> {
     @Override
     public void setId(Long id) {
         Id = id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void registerOwner(Long clientID) {
+        ownerId = clientID;
+        available = false;
+    }
+
+    public boolean isAvailable() {
+        return available;
     }
 }

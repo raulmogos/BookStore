@@ -114,9 +114,14 @@ public class Controller {
         }
         Book book = books.findOne(bookID).get();
         Client client = clients.findOne(clientID).get();
+
+        if (!book.isAvailable()) {
+            throw new Exception("Book is not available for purchase");
+        }
+        book.registerOwner(clientID);
         client.setMoneySpent(client.getMoneySpent() + book.getPrice());
 
-        books.delete(bookID);
+        books.update(book);
         clients.update(client);
      }
 
