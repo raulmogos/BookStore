@@ -5,6 +5,7 @@ import Models.Book;
 import Models.Client;
 import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,8 +27,8 @@ public class Console {
             System.out.println("0 - Exit");
             System.out.println("1 - Add Book");
             System.out.println("2 - Add Client");
-            System.out.println("3 - Show Books");
-            System.out.println("4 - Show Clients");
+            System.out.println("3 - List Books");
+            System.out.println("4 - List Clients");
             System.out.println("5 - Update Book");
             System.out.println("6 - Update Client");
             System.out.println("7 - Delete Book");
@@ -37,6 +38,7 @@ public class Console {
             System.out.println("11 - Filter Books by Price");
             System.out.println("12 - Show Available Books");
             System.out.println("13 - Show Sold Books");
+            System.out.println("14 - Filter Clients by Name");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -81,6 +83,9 @@ public class Console {
                         break;
                     case 13:
                         filterBookAvailable(false);
+                        break;
+                    case 14:
+                        filterClientsByName();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -250,5 +255,17 @@ public class Console {
 
     private void filterBookAvailable(boolean availability) {
         controller.filterBookAvailable(availability).forEach(System.out::println);
+    }
+
+    private void filterClientsByName() {
+        String name;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Client name: ");
+            name = reader.readLine();
+            controller.filterClientsByName(name).forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
