@@ -158,9 +158,16 @@ public class Controller {
      }
 
      public Iterable<Client> filterClientsByName(String name) {
-        Iterable<Client> clientsList = clients.findAll();
-        return Lists.newArrayList(clientsList).stream()
+        return Lists.newArrayList(clients.findAll()).stream()
                 .filter(client -> client.getLastName().contains(name) || client.getFirstName().contains(name))
+                .collect(Collectors.toList());
+     }
+
+     public Iterable<Client> topNClientsOnMoneySpent(int n) {
+        return Lists.newArrayList(clients.findAll())
+                .stream()
+                .sorted((Client client1, Client client2) -> - client1.getMoneySpent() + client2.getMoneySpent())
+                .limit(n)
                 .collect(Collectors.toList());
      }
 }
