@@ -5,7 +5,6 @@ import Models.Book;
 import Models.Client;
 import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,12 +32,13 @@ public class Console {
             System.out.println("6 - Update Client");
             System.out.println("7 - Delete Book");
             System.out.println("8 - Delete Client");
-            System.out.println("9 - Register Purchase");
+            System.out.println("9 - Buy Book");
             System.out.println("10 - Filter Books by Author");
             System.out.println("11 - Filter Books by Price");
             System.out.println("12 - Show Available Books");
             System.out.println("13 - Show Sold Books");
             System.out.println("14 - Filter Clients by Name");
+            System.out.println("15 - Top 10 clients on money spent");
             try {
                 String choice = reader.readLine();
                 int intChoice = Integer.parseInt(choice);
@@ -86,6 +86,9 @@ public class Console {
                         break;
                     case 14:
                         filterClientsByName();
+                        break;
+                    case 15:
+                        topNClientsOnMoneySpent();
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -267,5 +270,10 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void topNClientsOnMoneySpent() {
+        int N = 10;
+        controller.topNClientsOnMoneySpent(N).forEach(System.out::println);
     }
 }
