@@ -6,6 +6,8 @@ import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
 import Repository.Repository;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -152,6 +154,13 @@ public class Controller {
 
         return list.stream()
                 .filter(book -> book.isAvailable() == availability)
+                .collect(Collectors.toList());
+     }
+
+     public Iterable<Client> filterClientsByName(String name) {
+        Iterable<Client> clientsList = clients.findAll();
+        return Lists.newArrayList(clientsList).stream()
+                .filter(client -> client.getLastName().contains(name) || client.getFirstName().contains(name))
                 .collect(Collectors.toList());
      }
 }
