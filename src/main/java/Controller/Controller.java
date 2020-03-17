@@ -36,17 +36,17 @@ public class Controller {
         return id;
     }
 
-    public void addBook(String title, String author, int price) throws ValidatorException {
+    public void addBook(String title, String author, int price) {
         Book book = new Book(Controller.generateBookId(), title, author, price);
         books.save(book);
     }
 
-    public void addClient(String firstName, String lastName, int moneySpent) throws ValidatorException {
+    public void addClient(String firstName, String lastName, int moneySpent) {
         Client client = new Client(Controller.generateClientId(), firstName, lastName, moneySpent);
         clients.save(client);
     }
 
-    public void addClient(String firstName, String lastName) throws ValidatorException {
+    public void addClient(String firstName, String lastName) {
         Client client = new Client(Controller.generateClientId(), firstName, lastName, 0 );
         clients.save(client);
     }
@@ -59,7 +59,7 @@ public class Controller {
         return clients.findAll();
     }
 
-    public void updateBook(Long ID, String title, String author, int price) throws Exception, ValidatorException {
+    public void updateBook(Long ID, String title, String author, int price) {
         if (!books.findOne(ID).isPresent()) {
             throw new Exception("Book ID not found");
         }
@@ -76,14 +76,14 @@ public class Controller {
         books.update(book);
     }
 
-    public void deleteBook(Long ID) throws Exception {
+    public void deleteBook(Long ID) {
         if (!books.findOne(ID).isPresent()) {
             throw new Exception("Book ID not found");
         }
         books.delete(ID);
     }
 
-     public void updateClient(Long id, String firstName, String lastName, int moneySpent) throws Exception, ValidatorException {
+     public void updateClient(Long id, String firstName, String lastName, int moneySpent) {
          if (!clients.findOne(id).isPresent()) {
              throw new Exception("Client ID not found");
          }
@@ -100,14 +100,18 @@ public class Controller {
          clients.update(client);
      }
 
-     public void deleteClient(Long id) throws Exception {
+     public void deleteClient(Long id) {
          if (!clients.findOne(id).isPresent()) {
              throw new Exception("Client ID not found");
          }
+         Client client = clients.findOne(id).get();
+         Lists.newArrayList(books.findAll()).stream()
+                 .filter(book -> book.getOwnerId().equals(client.getId()))
+                 .forEach(Book::deleteOwner);
          clients.delete(id);
      }
 
-     public void buyBook(Long bookID, Long clientID) throws Exception {
+     public void buyBook(Long bookID, Long clientID) {
         if (!books.findOne(bookID).isPresent()) {
             throw new Exception("Book ID not found");
         }

@@ -75,4 +75,9 @@ public class Book extends BaseEntity<Long> {
     public boolean isAvailable() {
         return available;
     }
+
+    public void deleteOwner() {
+        ownerId = null;
+        available = true;
+    }
 }
