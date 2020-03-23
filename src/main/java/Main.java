@@ -1,13 +1,13 @@
-import Controller.Controller;
-import Models.Book;
-import Models.Client;
-import Models.Purchase;
-import Models.Validation.BookValidator;
-import Models.Validation.ClientValidator;
-import Models.Validation.PurchaseValidator;
-import Repository.InMemoryRepository;
-import Repository.Repository;
-import UI.Console;
+import controller.Controller;
+import models.Book;
+import models.Client;
+import models.Purchase;
+import models.validation.BookValidator;
+import models.validation.ClientValidator;
+import models.validation.PurchaseValidator;
+import repository.InMemoryRepository;
+import repository.Repository;
+import ui.Console;
 
 public class Main {
     public static void main(String[] args) {

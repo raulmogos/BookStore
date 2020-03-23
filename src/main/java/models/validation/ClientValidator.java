@@ -1,6 +1,6 @@
-package Models.Validation;
+package models.validation;
 
-import Models.Client;
+import models.Client;
 
 public class ClientValidator implements Validator<Client> {
     @Override

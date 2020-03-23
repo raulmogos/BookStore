@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Book extends BaseEntity<Long> {
     private String title;

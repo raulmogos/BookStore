@@ -1,8 +1,8 @@
-package Repository;
+package repository;
 
-import Models.BaseEntity;
-import Models.Validation.ValidatorException;
-import Models.Validation.Validator;
+import models.BaseEntity;
+import models.validation.ValidatorException;
+import models.validation.Validator;
 
 import java.util.HashMap;
 import java.util.HashSet;

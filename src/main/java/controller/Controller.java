@@ -1,10 +1,10 @@
-package Controller;
+package controller;
 
-import Models.Book;
-import Models.Client;
-import Models.Purchase;
-import Models.Validation.Exception;
-import Repository.Repository;
+import models.Book;
+import models.Client;
+import models.Purchase;
+import models.validation.Exception;
+import repository.Repository;
 
 import com.google.common.collect.Lists;
 

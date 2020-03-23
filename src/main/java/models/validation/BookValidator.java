@@ -1,6 +1,6 @@
-package Models.Validation;
+package models.validation;
 
-import Models.Book;
+import models.Book;
 
 public class BookValidator implements Validator<Book> {
     @Override

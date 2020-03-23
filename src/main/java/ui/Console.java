@@ -1,11 +1,11 @@
-package UI;
+package ui;
 
-import Controller.Controller;
-import Models.Book;
-import Models.Client;
-import Models.Purchase;
-import Models.Validation.Exception;
-import Models.Validation.ValidatorException;
+import controller.Controller;
+import models.Book;
+import models.Client;
+import models.Purchase;
+import models.validation.Exception;
+import models.validation.ValidatorException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
