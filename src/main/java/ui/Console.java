@@ -18,7 +18,7 @@ public class Console {
         this.controller = controller;
     }
 
-    public void runConsole() {
+    public void run() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             System.out.println("\n");

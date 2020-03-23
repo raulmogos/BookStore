@@ -16,6 +16,6 @@ public class Main {
         Repository<String, Purchase> purchaseRepository = new InMemoryRepository<>(new PurchaseValidator());
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
         Console console = new Console(controller);
-        console.runConsole();
+        console.run();
     }
 }
