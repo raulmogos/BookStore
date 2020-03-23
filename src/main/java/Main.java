@@ -7,13 +7,16 @@ import models.validation.ClientValidator;
 import models.validation.PurchaseValidator;
 import repository.InMemoryRepository;
 import repository.Repository;
+import repository.file_repositories.BookFileRepository;
+import repository.file_repositories.ClientFileRepository;
+import repository.file_repositories.PurchaseFileRepository;
 import ui.Console;
 
 public class Main {
     public static void main(String[] args) {
-        Repository<Long, Book> bookRepository = new InMemoryRepository<>(new BookValidator());
-        Repository<Long, Client> clientRepository = new InMemoryRepository<>(new ClientValidator());
-        Repository<String, Purchase> purchaseRepository = new InMemoryRepository<>(new PurchaseValidator());
+        Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
+        Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
+        Repository<String, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
         Console console = new Console(controller);
         console.run();
