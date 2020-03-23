@@ -2,8 +2,8 @@ package Controller;
 
 import Models.Book;
 import Models.Client;
+import Models.Purchase;
 import Models.Validation.Exception;
-import Models.Validation.ValidatorException;
 import Repository.Repository;
 
 import com.google.common.collect.Lists;
@@ -15,15 +15,16 @@ import java.util.stream.Collectors;
 public class Controller {
     private Repository<Long, Book> books;
     private Repository<Long, Client> clients;
+    private Repository<String, Purchase> purchases;
     private static Long bookID = 1L;
     private static Long clientID = 1L;
 
-    public Controller(Repository<Long, Book> books, Repository<Long, Client> clients) {
+    public Controller(Repository<Long, Book> books, Repository<Long, Client> clients, Repository<String, Purchase> purchases) {
         this.books = books;
         this.clients = clients;
+        this.purchases = purchases;
     }
 
-    // git merge --no--ff my_feature_branch
     private static Long generateBookId() {
         Long id = bookID;
         bookID ++;
@@ -59,6 +60,10 @@ public class Controller {
         return clients.findAll();
     }
 
+    public Iterable<Purchase> getAllPurchases() {
+        return purchases.findAll();
+    }
+
     public void updateBook(Long ID, String title, String author, int price) {
         if (!books.findOne(ID).isPresent()) {
             throw new Exception("Book ID not found");
@@ -76,11 +81,15 @@ public class Controller {
         books.update(book);
     }
 
-    public void deleteBook(Long ID) {
-        if (!books.findOne(ID).isPresent()) {
+    public void deleteBook(Long id) {
+        if (!books.findOne(id).isPresent()) {
             throw new Exception("Book ID not found");
         }
-        books.delete(ID);
+        // delete all purchases in which is that book
+        Lists.newArrayList(purchases.findAll()).stream()
+                .filter(purchase -> purchase.getBookId().equals(id))
+                .forEach(purchase -> purchases.delete(purchase.getId()));
+        books.delete(id);
     }
 
      public void updateClient(Long id, String firstName, String lastName, int moneySpent) {
@@ -104,38 +113,35 @@ public class Controller {
          if (!clients.findOne(id).isPresent()) {
              throw new Exception("Client ID not found");
          }
-         Client client = clients.findOne(id).get();
-         Lists.newArrayList(books.findAll()).stream()
-                 .filter(book -> book.getOwnerId().equals(client.getId()))
-                 .forEach(Book::deleteOwner);
+         // delete all purchases made by that client
+         Lists.newArrayList(purchases.findAll()).stream()
+                 .filter(purchase -> purchase.getClientId().equals(id))
+                 .forEach(purchase -> purchases.delete(purchase.getId()));
          clients.delete(id);
      }
 
-     public void buyBook(Long bookID, Long clientID) {
+     public void addPurchase(Long bookID, Long clientID) {
         if (!books.findOne(bookID).isPresent()) {
             throw new Exception("Book ID not found");
         }
         if (!clients.findOne(clientID).isPresent()) {
             throw new Exception("Client ID not found");
         }
-        Book book = books.findOne(bookID).get();
-        Client client = clients.findOne(clientID).get();
+        Purchase purchase = new Purchase(bookID, clientID);
+        purchases.save(purchase);
+     }
 
-        if (!book.isAvailable()) {
-            throw new Exception("Book is not available for purchase");
+     public void deletePurchase(String id) {
+        if (!purchases.findOne(id).isPresent()) {
+            throw new Exception("Purchase ID not found");
         }
-        book.registerOwner(clientID);
-        client.setMoneySpent(client.getMoneySpent() + book.getPrice());
-
-        books.update(book);
-        clients.update(client);
+        purchases.delete(id);
      }
 
      public Iterable<Book> filterBookAuthor(String author) {
         Iterable<Book> bookList = books.findAll();
         List<Book> list = new ArrayList<>();
         bookList.forEach(list::add);
-
         return list.stream()
                  .filter(book -> book.getAuthor().equals(author))
                  .collect(Collectors.toList());
@@ -145,19 +151,8 @@ public class Controller {
         Iterable<Book> bookList = books.findAll();
         List<Book> list = new ArrayList<>();
         bookList.forEach(list::add);
-
         return list.stream()
                 .filter(book -> book.getPrice() >= min && book.getPrice() <= max)
-                .collect(Collectors.toList());
-     }
-
-     public Iterable<Book> filterBookAvailable(boolean availability) {
-        Iterable<Book> bookList = books.findAll();
-        List<Book> list = new ArrayList<>();
-        bookList.forEach(list::add);
-
-        return list.stream()
-                .filter(book -> book.isAvailable() == availability)
                 .collect(Collectors.toList());
      }
 

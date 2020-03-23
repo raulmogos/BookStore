@@ -4,7 +4,7 @@ package Models;
  * @author radu.
  */
 public class BaseEntity<ID> {
-    private ID id;
+    protected ID id;
 
     public ID getId() {
         return id;
