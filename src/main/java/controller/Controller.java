@@ -1,15 +1,17 @@
-package Controller;
+package controller;
 
-import Models.Book;
-import Models.Client;
-import Models.Purchase;
-import Models.Validation.Exception;
-import Repository.Repository;
+import models.Book;
+import models.Client;
+import models.Purchase;
+import models.validation.Exception;
+import repository.Repository;
 
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -23,6 +25,17 @@ public class Controller {
         this.books = books;
         this.clients = clients;
         this.purchases = purchases;
+        this.initializeIdGenerators();
+    }
+
+    private void initializeIdGenerators() {
+        Optional<Book> bookMaxId = Lists.newArrayList(books.findAll()).stream()
+                .max(Comparator.comparing(Book::getId));
+        Optional<Client> clientMaxId = Lists.newArrayList(clients.findAll()).stream()
+                .max(Comparator.comparing(Client::getId));
+        //bookID = bookMaxId.isPresent() ? bookMaxId.get().getId() + 1: 1L;    old version
+        bookID = bookMaxId.map(book -> book.getId() + 1).orElse(1L);
+        clientID = clientMaxId.map(client -> client.getId() + 1).orElse(1L);
     }
 
     private static Long generateBookId() {
@@ -73,7 +86,7 @@ public class Controller {
             book.setTitle(title);
         }
         if (!author.equals("")) {
-            book.setAuthor(title);
+            book.setAuthor(author);
         }
         if (price >= 0) {
             book.setPrice(price);

@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 import java.time.LocalDateTime;
 
@@ -7,10 +7,17 @@ public class Purchase extends BaseEntity<String> {
     Long clientId;
     LocalDateTime lastModifiedDateTime;
 
+    public Purchase(Long bookId, Long clientId, LocalDateTime lastModifiedDateTime) {
+        this.bookId = bookId;
+        this.clientId = clientId;
+        this.id = bookId + "-" + clientId;
+        this.lastModifiedDateTime = lastModifiedDateTime;
+    }
+
     public Purchase(Long bookId, Long clientId) {
         this.bookId = bookId;
         this.clientId = clientId;
-        this.id = Long.toString(bookId) + "-" + Long.toString(clientId);
+        this.id = bookId + "-" + clientId;
         updateLastModified();
     }
 
@@ -34,6 +41,10 @@ public class Purchase extends BaseEntity<String> {
 
     public LocalDateTime getLastModifiedDateTime() {
         return lastModifiedDateTime;
+    }
+
+    public void setLastModifiedDateTime(LocalDateTime lastModifiedDateTime) {
+        this.lastModifiedDateTime = lastModifiedDateTime;
     }
 
     private void updateLastModified() {
