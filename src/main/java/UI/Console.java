@@ -3,6 +3,7 @@ package UI;
 import Controller.Controller;
 import Models.Book;
 import Models.Client;
+import Models.Purchase;
 import Models.Validation.Exception;
 import Models.Validation.ValidatorException;
 
@@ -19,25 +20,24 @@ public class Console {
 
     public void runConsole() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         while (true) {
             System.out.println("\n");
             System.out.println("Menu:");
-            System.out.println("0 - Exit");
+            System.out.println("0 - Exit\n");
             System.out.println("1 - Add Book");
             System.out.println("2 - Add Client");
-            System.out.println("3 - List Books");
-            System.out.println("4 - List Clients");
-            System.out.println("5 - Update Book");
-            System.out.println("6 - Update Client");
-            System.out.println("7 - Delete Book");
-            System.out.println("8 - Delete Client");
-            System.out.println("9 - Buy Book");
-            System.out.println("10 - Filter Books by Author");
-            System.out.println("11 - Filter Books by Price");
-            System.out.println("12 - Show Available Books");
-            System.out.println("13 - Show Sold Books");
-            System.out.println("14 - Filter Clients by Name");
+            System.out.println("3 - Add Purchase - Buy a book\n");
+            System.out.println("4 - List Books");
+            System.out.println("5 - List Clients");
+            System.out.println("6 - List Purchases\n");
+            System.out.println("7 - Update Book");
+            System.out.println("8 - Update Client\n");
+            System.out.println("9 - Delete Book");
+            System.out.println("10 - Delete Client");
+            System.out.println("11 - Delete Purchase\n");
+            System.out.println("12 - Filter Books by Author");
+            System.out.println("13 - Filter Books by Price");
+            System.out.println("14 - Filter Clients by Name\n");
             System.out.println("15 - Top 10 clients on money spent");
             try {
                 String choice = reader.readLine();
@@ -52,37 +52,37 @@ public class Console {
                         addClient();
                         break;
                     case 3:
-                        printBooks();
-                        break;
-                    case 4:
-                        printClients();
-                        break;
-                    case 5:
-                        updateBook();
-                        break;
-                    case 6:
-                        updateClient();
-                        break;
-                    case 7:
-                        deleteBook();
-                        break;
-                    case 8:
-                        deleteClient();
-                        break;
-                    case 9:
                         buyBook();
                         break;
+                    case 4:
+                        printBooks();
+                        break;
+                    case 5:
+                        printClients();
+                        break;
+                    case 6:
+                        printPurchase();
+                        break;
+                    case 7:
+                        updateBook();
+                        break;
+                    case 8:
+                        updateClient();
+                        break;
+                    case 9:
+                        deleteBook();
+                        break;
                     case 10:
-                        filterBookAuthor();
+                        deleteClient();
                         break;
                     case 11:
-                        filterBookPrice();
+                        deletePurchase();
                         break;
                     case 12:
-                        filterBookAvailable(true);
+                        filterBookAuthor();
                         break;
                     case 13:
-                        filterBookAvailable(false);
+                        filterBookPrice();
                         break;
                     case 14:
                         filterClientsByName();
@@ -144,6 +144,11 @@ public class Console {
         clients.forEach(System.out::println);
     }
 
+    private void printPurchase() {
+        Iterable<Purchase> purchases = controller.getAllPurchases();
+        purchases.forEach(System.out::println);
+    }
+
     private void updateBook() {
         String ID, title, author, price;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -166,6 +171,7 @@ public class Console {
             System.out.println(exception.getMessage());
         }
     }
+
     private void updateClient() {
         String id, firstName, lastName, moneySpent;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -213,6 +219,20 @@ public class Console {
         }
     }
 
+    private void deletePurchase() {
+        String id;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println("Purchase ID:"); id = reader.readLine();
+            controller.deletePurchase(id);
+            System.out.println("Purchase deleted Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
     private void buyBook() {
         String bookID, clientID;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -221,7 +241,7 @@ public class Console {
             bookID = reader.readLine();
             System.out.println("Client ID:");
             clientID = reader.readLine();
-            controller.buyBook(Long.parseLong(bookID), Long.parseLong(clientID));
+            controller.addPurchase(Long.parseLong(bookID), Long.parseLong(clientID));
             System.out.println("Book purchase successfully registered");
         } catch (IOException e) {
             e.printStackTrace();
@@ -254,10 +274,6 @@ public class Console {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void filterBookAvailable(boolean availability) {
-        controller.filterBookAvailable(availability).forEach(System.out::println);
     }
 
     private void filterClientsByName() {

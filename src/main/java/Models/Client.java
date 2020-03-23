@@ -1,13 +1,9 @@
 package Models;
 
 public class Client extends BaseEntity<Long> {
-    private Long id;
     private String firstName;
     private String lastName;
     private int moneySpent;
-
-    public Client() {
-    }
 
     public Client(Long id, String firstName, String lastName, int moneySpent) {
         this.id = id;
@@ -38,16 +34,6 @@ public class Client extends BaseEntity<Long> {
 
     public void setMoneySpent(int moneySpent) {
         this.moneySpent = moneySpent;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
