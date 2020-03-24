@@ -140,6 +140,7 @@ public class Controller {
         if (!clients.findOne(clientID).isPresent()) {
             throw new Exception("Client ID not found");
         }
+        // todo: change moneySpent for the client
         Purchase purchase = new Purchase(bookID, clientID);
         purchases.save(purchase);
      }
