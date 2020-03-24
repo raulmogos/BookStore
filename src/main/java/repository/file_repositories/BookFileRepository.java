@@ -82,7 +82,7 @@ public class BookFileRepository extends InMemoryRepository<Long, Book> {
     }
 
     @Override
-    public Optional<Book> save(Book book) throws ValidatorException {
+    public Optional<Book> save(Book book) {
         Optional<Book> optionalBook = super.save(book);
         if (optionalBook.isPresent()) {
             return optionalBook;

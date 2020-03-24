@@ -79,7 +79,7 @@ public class ClientFileRepository extends InMemoryRepository<Long, Client> {
     }
 
     @Override
-    public Optional<Client> save(Client client) throws ValidatorException {
+    public Optional<Client> save(Client client) {
         Optional<Client> optionalClient = super.save(client);
         if (optionalClient.isPresent()) {
             return optionalClient;
