@@ -10,13 +10,16 @@ import repository.Repository;
 import repository.file_repositories.BookFileRepository;
 import repository.file_repositories.ClientFileRepository;
 import repository.file_repositories.PurchaseFileRepository;
+import repository.xml_repositories.BookXMLRepository;
+import repository.xml_repositories.ClientXMLRepository;
+import repository.xml_repositories.PurchaseXMLRepository;
 import ui.Console;
 
 public class Main {
     public static void main(String[] args) {
-        Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
-        Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
-        Repository<String, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
+        Repository<Long, Book> bookRepository = new BookXMLRepository(new BookValidator());
+        Repository<Long, Client> clientRepository = new ClientXMLRepository(new ClientValidator());
+        Repository<String, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
         Console console = new Console(controller);
         console.run();

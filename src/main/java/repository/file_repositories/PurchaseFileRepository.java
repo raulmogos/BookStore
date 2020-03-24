@@ -79,7 +79,7 @@ public class PurchaseFileRepository extends InMemoryRepository<String, Purchase>
     }
 
     @Override
-    public Optional<Purchase> save(Purchase purchase) throws ValidatorException {
+    public Optional<Purchase> save(Purchase purchase) {
         Optional<Purchase> optionalPurchase = super.save(purchase);
         if (optionalPurchase.isPresent()) {
             return optionalPurchase;
