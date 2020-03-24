@@ -1,5 +1,5 @@
-package Repository;
-import Models.BaseEntity;
+package repository;
+import models.BaseEntity;
 import java.io.Serializable;
 
 /**

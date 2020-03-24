@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Client extends BaseEntity<Long> {
     private String firstName;

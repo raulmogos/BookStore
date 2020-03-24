@@ -1,6 +1,6 @@
-package Models.Validation;
+package models.validation;
 
-import Models.Purchase;
+import models.Purchase;
 
 public class PurchaseValidator implements Validator<Purchase> {
     @Override

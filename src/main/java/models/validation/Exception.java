@@ -1,4 +1,4 @@
-package Models.Validation;
+package models.validation;
 
 public class Exception extends RuntimeException {
     public Exception(String message) {

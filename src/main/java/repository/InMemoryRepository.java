@@ -1,8 +1,8 @@
-package Repository;
+package repository;
 
-import Models.BaseEntity;
-import Models.Validation.ValidatorException;
-import Models.Validation.Validator;
+import models.BaseEntity;
+import models.validation.ValidatorException;
+import models.validation.Validator;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public class InMemoryRepository<ID, T extends BaseEntity<ID>> implements Repository<ID, T> {
 
-    private Map<ID, T> entities;
-    private Validator<T> validator;
+    protected Map<ID, T> entities;
+    protected Validator<T> validator;
 
     public InMemoryRepository(Validator<T> validator) {
         this.validator = validator;

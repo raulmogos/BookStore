@@ -1,9 +1,9 @@
-package Repository;
+package repository;
 
 import java.util.Optional;
 
-import Models.BaseEntity;
-import Models.Validation.ValidatorException;
+import models.BaseEntity;
+import models.validation.ValidatorException;
 
 /**
  * Interface for generic CRUD operations on a repository for a specific type.
