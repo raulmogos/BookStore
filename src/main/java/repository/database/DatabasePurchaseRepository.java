@@ -95,7 +95,7 @@ public class DatabasePurchaseRepository implements Repository<Long, Purchase> {
             Class.forName("com.postgresql.jdbc.Driver");
 
             conn = DriverManager.getConnection(url);
-            String sql = "DELETE FROM Books WHERE id=?";
+            String sql = "DELETE FROM Purchases WHERE id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Math.toIntExact(o));
 
@@ -108,7 +108,7 @@ public class DatabasePurchaseRepository implements Repository<Long, Purchase> {
     }
 
     @Override
-    public Optional update(Book entity) throws ValidatorException {
+    public Optional update(Purchase entity) throws ValidatorException {
         Connection conn;
         PreparedStatement stmt;
 
@@ -116,11 +116,11 @@ public class DatabasePurchaseRepository implements Repository<Long, Purchase> {
             Class.forName("com.postgresql.jdbc.Driver");
 
             conn = DriverManager.getConnection(url);
-            String sql = "UPDATE Books SET title=?, author=?, price=? WHERE id=?";
+            String sql = "UPDATE Purchases SET title=?, author=?, price=? WHERE id=?";
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, entity.getTitle());
-            stmt.setString(2, entity.getAuthor());
-            stmt.setInt(3, entity.getPrice());
+            stmt.setInt(2, Math.toIntExact(entity.getBookId()));
+            stmt.setInt(3, Math.toIntExact(entity.getClientId()));
+            stmt.setDate(4, Date.valueOf(entity.getLastModifiedDateTime()));
             stmt.setInt(4, Math.toIntExact(entity.getId()));
 
             stmt.executeUpdate();

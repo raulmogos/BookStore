@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         Repository<Long, Book> bookRepository = new BookXMLRepository(new BookValidator());
         Repository<Long, Client> clientRepository = new ClientXMLRepository(new ClientValidator());
-        Repository<String, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
+        Repository<Long, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
         Console console = new Console(controller);
         console.run();
