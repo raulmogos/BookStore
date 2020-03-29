@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 public class Controller {
     private Repository<Long, Book> books;
     private Repository<Long, Client> clients;
-    private Repository<String, Purchase> purchases;
+    private Repository<Long, Purchase> purchases;
     private static Long bookID = 1L;
     private static Long clientID = 1L;
+    private static Long purchaseID = 1L;
 
-    public Controller(Repository<Long, Book> books, Repository<Long, Client> clients, Repository<String, Purchase> purchases) {
+    public Controller(Repository<Long, Book> books, Repository<Long, Client> clients, Repository<Long, Purchase> purchases) {
         this.books = books;
         this.clients = clients;
         this.purchases = purchases;
@@ -47,6 +48,12 @@ public class Controller {
     private static Long generateClientId() {
         Long id = clientID;
         clientID ++;
+        return id;
+    }
+
+    private static Long generatePurchaseId() {
+        Long id = purchaseID;
+        purchaseID ++;
         return id;
     }
 
@@ -141,11 +148,11 @@ public class Controller {
             throw new Exception("Client ID not found");
         }
         // todo: change moneySpent for the client
-        Purchase purchase = new Purchase(bookID, clientID);
+        Purchase purchase = new Purchase(generatePurchaseId(), bookID, clientID);
         purchases.save(purchase);
      }
 
-     public void deletePurchase(String id) {
+     public void deletePurchase(Long id) {
         if (!purchases.findOne(id).isPresent()) {
             throw new Exception("Purchase ID not found");
         }

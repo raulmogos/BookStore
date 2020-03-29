@@ -1,23 +1,34 @@
 package models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-public class Purchase extends BaseEntity<String> {
+public class Purchase extends BaseEntity<Long> {
     Long bookId;
     Long clientId;
-    LocalDateTime lastModifiedDateTime;
+    LocalDate lastModifiedDate;
 
-    public Purchase(Long bookId, Long clientId, LocalDateTime lastModifiedDateTime) {
+    public Purchase(Long id, Long bookId, Long clientId, LocalDate lastModifiedDateTime) {
+        this.id = id;
         this.bookId = bookId;
         this.clientId = clientId;
-        this.id = bookId + "-" + clientId;
-        this.lastModifiedDateTime = lastModifiedDateTime;
+        this.lastModifiedDate = lastModifiedDateTime;
+    }
+
+    public Purchase (Long id, Long bookId, Long clientId) {
+        this.id = id;
+        this.bookId = bookId;
+        this.clientId = clientId;
+    }
+
+    public Purchase(Long bookId, Long clientId, LocalDate lastModifiedDateTime) {
+        this.bookId = bookId;
+        this.clientId = clientId;
+        this.lastModifiedDate = lastModifiedDateTime;
     }
 
     public Purchase(Long bookId, Long clientId) {
         this.bookId = bookId;
         this.clientId = clientId;
-        this.id = bookId + "-" + clientId;
         updateLastModified();
     }
 
@@ -39,20 +50,20 @@ public class Purchase extends BaseEntity<String> {
         updateLastModified();
     }
 
-    public LocalDateTime getLastModifiedDateTime() {
-        return lastModifiedDateTime;
+    public LocalDate getLastModifiedDateTime() {
+        return lastModifiedDate;
     }
 
-    public void setLastModifiedDateTime(LocalDateTime lastModifiedDateTime) {
-        this.lastModifiedDateTime = lastModifiedDateTime;
+    public void setLastModifiedDateTime(LocalDate lastModifiedDateTime) {
+        this.lastModifiedDate = lastModifiedDateTime;
     }
 
     private void updateLastModified() {
-        this.lastModifiedDateTime = LocalDateTime.now();
+        this.lastModifiedDate = LocalDate.now();
     }
 
     @Override
     public String toString() {
-        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified at: " + lastModifiedDateTime;
+        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified at: " + lastModifiedDate;
     }
 }
