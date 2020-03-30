@@ -1,9 +1,7 @@
 package repository.file_repositories;
 
-import models.Client;
 import models.Purchase;
 import models.validation.Validator;
-import models.validation.ValidatorException;
 import repository.InMemoryRepository;
 
 import java.io.BufferedWriter;
@@ -13,12 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class PurchaseFileRepository extends InMemoryRepository<String, Purchase> {
+public class PurchaseFileRepository extends InMemoryRepository<Long, Purchase> {
 
     private static final String PATH = "data/txt/purchase/";
     private static final String DEFAULT_NAME = "purchases";
@@ -45,9 +43,10 @@ public class PurchaseFileRepository extends InMemoryRepository<String, Purchase>
                 List<String> items = Arrays.asList(line.split(","));
                 Purchase purchase = new Purchase(
                         // Purchase(Long bookId, Long clientId, LocalDateTime lastModifiedDateTime)
+                        Long.parseLong(items.get(0)), // long
                         Long.parseLong(items.get(1)), // long
                         Long.parseLong(items.get(2)),  // long
-                        LocalDateTime.parse(items.get(3)) // LocalDateTime
+                        LocalDate.parse(items.get(3)) // LocalDateTime
                 );
                 super.save(purchase);
             });
@@ -60,7 +59,7 @@ public class PurchaseFileRepository extends InMemoryRepository<String, Purchase>
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
             bufferedWriter.write("");
             for (Purchase purchase : this.entities.values()) {
-                bufferedWriter.write(purchase.getId() + "," + purchase.getBookId() + "," + purchase.getClientId() + "," + purchase.getLastModifiedDateTime());
+                bufferedWriter.write(purchase.getId() + "," + purchase.getBookId() + "," + purchase.getClientId() + "," + purchase.getLastModifiedDate());
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
@@ -71,7 +70,7 @@ public class PurchaseFileRepository extends InMemoryRepository<String, Purchase>
     private void saveToFile(Purchase purchase) {
         Path _path = Paths.get(path);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(_path, StandardOpenOption.APPEND)) {
-            bufferedWriter.write(purchase.getId() + "," + purchase.getBookId() + "," + purchase.getClientId() + "," + purchase.getLastModifiedDateTime());
+            bufferedWriter.write(purchase.getId() + "," + purchase.getBookId() + "," + purchase.getClientId() + "," + purchase.getLastModifiedDate());
             bufferedWriter.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +88,7 @@ public class PurchaseFileRepository extends InMemoryRepository<String, Purchase>
     }
 
     @Override
-    public Optional<Purchase> delete(String id) {
+    public Optional<Purchase> delete(Long id) {
         Optional<Purchase> optionalPurchase = super.delete(id);
         refreshDataInFile();
         return Optional.empty();

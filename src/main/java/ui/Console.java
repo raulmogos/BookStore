@@ -220,7 +220,7 @@ public class Console {
     }
 
     private void deletePurchase() {
-        Long id;
+        long id;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             System.out.println("Purchase ID:"); id = Long.parseLong(reader.readLine());

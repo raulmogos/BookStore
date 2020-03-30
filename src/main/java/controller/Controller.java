@@ -30,13 +30,17 @@ public class Controller {
     }
 
     private void initializeIdGenerators() {
+        // when we load all the data we need to get the largest id for each entity
         Optional<Book> bookMaxId = Lists.newArrayList(books.findAll()).stream()
                 .max(Comparator.comparing(Book::getId));
         Optional<Client> clientMaxId = Lists.newArrayList(clients.findAll()).stream()
                 .max(Comparator.comparing(Client::getId));
-        //bookID = bookMaxId.isPresent() ? bookMaxId.get().getId() + 1: 1L;    old version
-        bookID = bookMaxId.map(book -> book.getId() + 1).orElse(1L);
+        Optional<Purchase> purchaseMaxId = Lists.newArrayList(purchases.findAll()).stream()
+                .max(Comparator.comparing(Purchase::getId));
+        //bookID = bookMaxId.isPresent() ? bookMaxId.get().getId() + 1: 1L;  ->  old version
+        bookID = bookMaxId.map(book -> book.getId() + 1).orElse(1L);  // functional version
         clientID = clientMaxId.map(client -> client.getId() + 1).orElse(1L);
+        purchaseID = purchaseMaxId.map(purchase -> purchase.getId() + 1).orElse(1L);
     }
 
     private static Long generateBookId() {
@@ -147,7 +151,12 @@ public class Controller {
         if (!clients.findOne(clientID).isPresent()) {
             throw new Exception("Client ID not found");
         }
-        // todo: change moneySpent for the client
+        // update moneySpent for the client
+        Client client = clients.findOne(clientID).get();
+        int newMoneySpent = client.getMoneySpent() + books.findOne(bookID).get().getPrice();
+        client.setMoneySpent(newMoneySpent);
+        clients.update(client);
+        // add purchase
         Purchase purchase = new Purchase(generatePurchaseId(), bookID, clientID);
         purchases.save(purchase);
      }
