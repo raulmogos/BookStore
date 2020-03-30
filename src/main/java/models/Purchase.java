@@ -18,18 +18,13 @@ public class Purchase extends BaseEntity<Long> {
         this.id = id;
         this.bookId = bookId;
         this.clientId = clientId;
+        updateLastModifiedWithCurrentData();
     }
 
-    public Purchase(Long bookId, Long clientId, LocalDate lastModifiedDateTime) {
+    public Purchase(Long bookId, Long clientId, LocalDate lastModifiedDate) {
         this.bookId = bookId;
         this.clientId = clientId;
-        this.lastModifiedDate = lastModifiedDateTime;
-    }
-
-    public Purchase(Long bookId, Long clientId) {
-        this.bookId = bookId;
-        this.clientId = clientId;
-        updateLastModified();
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Long getBookId() {
@@ -38,7 +33,7 @@ public class Purchase extends BaseEntity<Long> {
 
     public void setBookId(Long bookId) {
         this.bookId = bookId;
-        updateLastModified();
+        updateLastModifiedWithCurrentData();
     }
 
     public Long getClientId() {
@@ -47,23 +42,23 @@ public class Purchase extends BaseEntity<Long> {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
-        updateLastModified();
+        updateLastModifiedWithCurrentData();
     }
 
-    public LocalDate getLastModifiedDateTime() {
+    public LocalDate getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDateTime(LocalDate lastModifiedDateTime) {
-        this.lastModifiedDate = lastModifiedDateTime;
+    public void setLastModifiedDate(LocalDate lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
-    private void updateLastModified() {
+    private void updateLastModifiedWithCurrentData() {
         this.lastModifiedDate = LocalDate.now();
     }
 
     @Override
     public String toString() {
-        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified at: " + lastModifiedDate;
+        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified in: " + lastModifiedDate;
     }
 }

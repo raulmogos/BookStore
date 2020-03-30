@@ -17,11 +17,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> {
+public class PurchaseXMLRepository extends InMemoryRepository<Long, Purchase> {
 
     private static final String PATH = "data/xml/purchase/";
     private static final String DEFAULT_NAME = "purchases";
@@ -55,7 +55,6 @@ public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> 
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
-
     }
 
     private static String getTextFromTagName(Element parentElement, String tagName) {
@@ -64,9 +63,10 @@ public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> 
 
     private Purchase createPurchaseFromElement(Element element) {
         return new Purchase(
+                Long.parseLong(element.getAttribute("id")),
                 Long.parseLong(getTextFromTagName(element, "bookId")),
                 Long.parseLong(getTextFromTagName(element, "clientId")),
-                LocalDateTime.parse(getTextFromTagName(element, "date"))
+                LocalDate.parse(getTextFromTagName(element, "date"))
         );
     }
 
@@ -94,7 +94,7 @@ public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> 
                     .mapToObj(children::item)
                     .filter(node -> node instanceof Element)
                     .map(node -> (Element) node)
-                    .filter(nodeElement -> nodeElement.getAttribute("id").equals(purchase.getId()))
+                    .filter(nodeElement -> Long.parseLong(nodeElement.getAttribute("id")) == purchase.getId())
                     .findFirst().get();
             root.removeChild(purchaseElement);
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -111,7 +111,7 @@ public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> 
         element.setAttribute("id", purchase.getId().toString());
         appendChildWithTextToNode(document, element, "bookId", purchase.getBookId().toString());
         appendChildWithTextToNode(document, element, "clientId", purchase.getClientId().toString());
-        appendChildWithTextToNode(document, element, "date", String.valueOf(purchase.getLastModifiedDateTime()));
+        appendChildWithTextToNode(document, element, "date", String.valueOf(purchase.getLastModifiedDate()));
         return element;
     }
 
@@ -132,7 +132,7 @@ public class PurchaseXMLRepository extends InMemoryRepository<String, Purchase> 
     }
 
     @Override
-    public Optional<Purchase> delete(String id) {
+    public Optional<Purchase> delete(Long id) {
         Optional<Purchase> optionalPurchase = super.delete(id);
         optionalPurchase.ifPresent(this::deleteNodeFromXML);
         return Optional.empty();

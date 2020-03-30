@@ -76,7 +76,7 @@ public class DatabasePurchaseRepository implements Repository<Long, Purchase> {
             stmt.setInt(1, Math.toIntExact(entity.getId()));
             stmt.setInt(2, Math.toIntExact(entity.getBookId()));
             stmt.setInt(3, Math.toIntExact(entity.getClientId()));
-            stmt.setDate(4, Date.valueOf(entity.getLastModifiedDateTime()));
+            stmt.setDate(4, Date.valueOf(entity.getLastModifiedDate()));
 
             stmt.executeUpdate();
             return Optional.empty();
@@ -120,7 +120,7 @@ public class DatabasePurchaseRepository implements Repository<Long, Purchase> {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(2, Math.toIntExact(entity.getBookId()));
             stmt.setInt(3, Math.toIntExact(entity.getClientId()));
-            stmt.setDate(4, Date.valueOf(entity.getLastModifiedDateTime()));
+            stmt.setDate(4, Date.valueOf(entity.getLastModifiedDate()));
             stmt.setInt(4, Math.toIntExact(entity.getId()));
 
             stmt.executeUpdate();

@@ -8,6 +8,6 @@
     <client id="2">
         <firstName>qwerty</firstName>
         <lastName>hgfdsa</lastName>
-        <moneySpent>23</moneySpent>
+        <moneySpent>0</moneySpent>
     </client>
 </clients>
