@@ -1,24 +1,30 @@
 package models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-public class Purchase extends BaseEntity<String> {
+public class Purchase extends BaseEntity<Long> {
     Long bookId;
     Long clientId;
-    LocalDateTime lastModifiedDateTime;
+    LocalDate lastModifiedDate;
 
-    public Purchase(Long bookId, Long clientId, LocalDateTime lastModifiedDateTime) {
+    public Purchase(Long id, Long bookId, Long clientId, LocalDate lastModifiedDateTime) {
+        this.id = id;
         this.bookId = bookId;
         this.clientId = clientId;
-        this.id = bookId + "-" + clientId;
-        this.lastModifiedDateTime = lastModifiedDateTime;
+        this.lastModifiedDate = lastModifiedDateTime;
     }
 
-    public Purchase(Long bookId, Long clientId) {
+    public Purchase (Long id, Long bookId, Long clientId) {
+        this.id = id;
         this.bookId = bookId;
         this.clientId = clientId;
-        this.id = bookId + "-" + clientId;
-        updateLastModified();
+        updateLastModifiedWithCurrentData();
+    }
+
+    public Purchase(Long bookId, Long clientId, LocalDate lastModifiedDate) {
+        this.bookId = bookId;
+        this.clientId = clientId;
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Long getBookId() {
@@ -27,7 +33,7 @@ public class Purchase extends BaseEntity<String> {
 
     public void setBookId(Long bookId) {
         this.bookId = bookId;
-        updateLastModified();
+        updateLastModifiedWithCurrentData();
     }
 
     public Long getClientId() {
@@ -36,23 +42,23 @@ public class Purchase extends BaseEntity<String> {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
-        updateLastModified();
+        updateLastModifiedWithCurrentData();
     }
 
-    public LocalDateTime getLastModifiedDateTime() {
-        return lastModifiedDateTime;
+    public LocalDate getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setLastModifiedDateTime(LocalDateTime lastModifiedDateTime) {
-        this.lastModifiedDateTime = lastModifiedDateTime;
+    public void setLastModifiedDate(LocalDate lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
-    private void updateLastModified() {
-        this.lastModifiedDateTime = LocalDateTime.now();
+    private void updateLastModifiedWithCurrentData() {
+        this.lastModifiedDate = LocalDate.now();
     }
 
     @Override
     public String toString() {
-        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified at: " + lastModifiedDateTime;
+        return "Purchase: " + "id: " + id + ", bookId: " + bookId + ", clientId: " + clientId + ", last modified in: " + lastModifiedDate;
     }
 }

@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.sql.*;
 
-public class DatabaseBookRepository implements Repository<Long, Book> {
+public class BookDatabaseRepository implements Repository<Long, Book> {
     private static final String url = "jdbc:postgresql://localhost/BookStore";
+    private static final String user = "postgres";
+    private static final String password = "password";
 
     @Override
     public Optional findOne(Long o) {
@@ -17,16 +19,16 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
         PreparedStatement stmt;
 
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM Books WHERE id=?";
+            conn = DriverManager.getConnection(url, user, password);
+            String sql = "SELECT * FROM \"Books\" WHERE bookId=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Math.toIntExact(o));
 
             ResultSet result = stmt.executeQuery();
+            result.next();
             return Optional.of(new Book(o, result.getString("title"), result.getString("author"), result.getInt("price")));
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.empty();
@@ -38,16 +40,15 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
         Statement stmt;
 
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url, user, password);
             stmt = conn.createStatement();
-            String sql = "SLECT * FROM Books";
+            String sql = "SELECT * FROM \"Books\"";
             ResultSet result = stmt.executeQuery(sql);
 
             ArrayList<Book> books = new ArrayList<>();
             while (result.next()) {
-                Long id = (long) result.getInt("id");
+                Long id = (long) result.getInt("bookId");
                 String title = result.getString("title");
                 String author = result.getString("author");
                 int price = result.getInt("price");
@@ -55,7 +56,7 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
                 books.add(new Book(id, title, author, price));
             }
             return books;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return new ArrayList<Book>();
@@ -67,10 +68,9 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
         PreparedStatement stmt;
 
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(url);
-            String sql = "INSERT INTO Books(id, title, author, price) VALUES(?, ?, ?, ?)";
+            conn = DriverManager.getConnection(url, user, password);
+            String sql = "INSERT INTO \"Books\"(bookId, title, author, price) VALUES(?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Math.toIntExact(entity.getId()));
             stmt.setString(2, entity.getTitle());
@@ -79,7 +79,7 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
 
             stmt.executeUpdate();
             return Optional.empty();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.ofNullable(entity);
@@ -91,16 +91,15 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
         PreparedStatement stmt;
 
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(url);
-            String sql = "DELETE FROM Books WHERE id=?";
+            conn = DriverManager.getConnection(url, user, password);
+            String sql = "DELETE FROM \"Books\" WHERE bookId=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Math.toIntExact(o));
 
             stmt.executeUpdate();
             return Optional.empty();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.ofNullable(findOne(o));
@@ -112,10 +111,8 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
         PreparedStatement stmt;
 
         try {
-            Class.forName("com.postgresql.jdbc.Driver");
-
-            conn = DriverManager.getConnection(url);
-            String sql = "UPDATE Books SET title=?, author=?, price=? WHERE id=?";
+            conn = DriverManager.getConnection(url, user, password);
+            String sql = "UPDATE \"Books\" SET title=?, author=?, price=? WHERE bookId=?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, entity.getTitle());
             stmt.setString(2, entity.getAuthor());
@@ -124,7 +121,7 @@ public class DatabaseBookRepository implements Repository<Long, Book> {
 
             stmt.executeUpdate();
             return Optional.empty();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.ofNullable(entity);

@@ -220,10 +220,10 @@ public class Console {
     }
 
     private void deletePurchase() {
-        String id;
+        long id;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            System.out.println("Purchase ID:"); id = reader.readLine();
+            System.out.println("Purchase ID:"); id = Long.parseLong(reader.readLine());
             controller.deletePurchase(id);
             System.out.println("Purchase deleted Successfully");
         } catch (IOException e) {
