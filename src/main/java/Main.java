@@ -17,17 +17,17 @@ import ui.Console;
 
 public class Main {
     public static void main(String[] args) {
-//        // XML
-//        Repository<Long, Book> bookRepository = new BookXMLRepository(new BookValidator());
-//        Repository<Long, Client> clientRepository = new ClientXMLRepository(new ClientValidator());
-//        Repository<Long, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
+        //// XML
+        //Repository<Long, Book> bookRepository = new BookXMLRepository(new BookValidator());
+        //Repository<Long, Client> clientRepository = new ClientXMLRepository(new ClientValidator());
+        //Repository<Long, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
 
-//        // FILE
-//        Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
-//        Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
-//        Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
+        //// FILE
+        //Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
+        //Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
+        //Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
 
-        // Database
+        //// Database
         Repository<Long, Book> bookRepository = new BookDatabaseRepository();
         Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
         Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
