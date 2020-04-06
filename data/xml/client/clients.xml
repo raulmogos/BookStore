@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clients>
+    <client id="4">
+        <firstName>22</firstName>
+        <lastName>22</lastName>
+        <moneySpent>0</moneySpent>
+    </client>
+    <client id="2">
+        <firstName>qwerty</firstName>
+        <lastName>hgfdsa</lastName>
+        <moneySpent>0</moneySpent>
+    </client>
+</clients>
