@@ -2,7 +2,6 @@ package repository.xml_repositories;
 
 import models.Book;
 import models.validation.Validator;
-import models.validation.ValidatorException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

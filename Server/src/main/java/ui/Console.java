@@ -4,7 +4,6 @@ import controller.Controller;
 import models.Book;
 import models.Client;
 import models.Purchase;
-import models.validation.Exception;
 import models.validation.ValidatorException;
 
 import java.io.BufferedReader;
@@ -167,7 +166,7 @@ public class Console {
             System.out.println("Book Updated Successfully");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception | ValidatorException exception) {
+        } catch (java.lang.Exception | ValidatorException exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -184,7 +183,7 @@ public class Console {
             System.out.println("Client Updated Successfully");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception | ValidatorException exception) {
+        } catch (java.lang.Exception | ValidatorException exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -200,7 +199,7 @@ public class Console {
             System.out.println("Book Deleted Successfully");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception exception) {
+        } catch (java.lang.Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -214,7 +213,7 @@ public class Console {
             System.out.println("Client deleted Successfully");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception exception) {
+        } catch (java.lang.Exception exception) {
             System.out.println(exception.getMessage());
         }
     }

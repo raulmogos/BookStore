@@ -1,9 +1,7 @@
 package repository.file_repositories;
 
-import models.Book;
 import models.Client;
 import models.validation.Validator;
-import models.validation.ValidatorException;
 import repository.InMemoryRepository;
 
 import java.io.BufferedWriter;

@@ -2,17 +2,10 @@ import controller.Controller;
 import models.Book;
 import models.Client;
 import models.Purchase;
-import models.validation.BookValidator;
-import models.validation.ClientValidator;
-import models.validation.PurchaseValidator;
-import repository.InMemoryRepository;
 import repository.Repository;
 import repository.database.BookDatabaseRepository;
 import repository.database.ClientDatabaseRepository;
 import repository.database.PurchaseDatabaseRepository;
-import repository.file_repositories.BookFileRepository;
-import repository.file_repositories.ClientFileRepository;
-import repository.file_repositories.PurchaseFileRepository;
 import ui.Console;
 
 public class Main {

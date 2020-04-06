@@ -5,6 +5,7 @@ import models.Client;
 import models.Purchase;
 import models.validation.Exception;
 import repository.Repository;
+import common.CommonController;
 
 import com.google.common.collect.Lists;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Controller {
+public class Controller implements CommonController {
     private Repository<Long, Book> books;
     private Repository<Long, Client> clients;
     private Repository<Long, Purchase> purchases;
