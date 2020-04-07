@@ -23,14 +23,14 @@ public class Main {
         //Repository<Long, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
 
         //// FILE
-        //Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
-        //Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
-        //Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
+        Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
+        Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
+        Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
 
         //// Database
-        Repository<Long, Book> bookRepository = new BookDatabaseRepository();
-        Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
-        Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
+//        Repository<Long, Book> bookRepository = new BookDatabaseRepository();
+//        Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
+//        Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
 
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
         Console console = new Console(controller);

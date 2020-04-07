@@ -1,2 +1,5 @@
 rootProject.name = 'BookStore'
+include 'server'
+include 'client'
+include 'common'
 
