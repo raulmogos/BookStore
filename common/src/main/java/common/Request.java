@@ -1,3 +1,5 @@
+package main.java.common;
+
 import java.io.*;
 
 public class Request {
