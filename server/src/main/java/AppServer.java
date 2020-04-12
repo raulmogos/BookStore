@@ -8,11 +8,11 @@ import models.validation.PurchaseValidator;
 import repository.Repository;
 import repository.file_repositories.BookFileRepository;
 import repository.file_repositories.ClientFileRepository;
-import repository.file_repositories.FileRepository;
 import repository.file_repositories.PurchaseFileRepository;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 public class AppServer {
     public static void main(String[] args) {
@@ -25,13 +25,18 @@ public class AppServer {
 
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
 
-        ExecutorService executorService = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors()
-        );
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-        ServerService serverService = new ServerService(executorService, controller);
+        ServerService service = new ServerService(executorService, controller);
 
         TCPServer server = new TCPServer(executorService);
+
+        Helpers.addHandlersToServer(server, service);
+
+
+        server.startServer();
+
+        executorService.shutdown();
 
 
         System.out.println("server stopped");

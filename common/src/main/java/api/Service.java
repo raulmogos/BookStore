@@ -7,5 +7,5 @@ public interface Service {
 
      // todo: continue
 
-     Future<String> addBook(String name);
+     Future<String> addBook(String title, String author, int price);
 }

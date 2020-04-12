@@ -3,18 +3,24 @@ package api;
 import java.io.*;
 
 public class Request {
+    public static final String SUCCESS_STATUS = "SUCCESS";
+    public static final String ERROR_STATUS = "ERROR";
+
     public static final int PORT = 1234;
     public static final String HOST = "localhost";
 
     private String method;
-    private String payload; // todo: change this type
+    private String jsonPayload;
+
+    // @ Moldovanu Dragos - check this
+    // https://www.w3schools.in/json/json-java/
 
     public Request() {
     }
 
-    public Request(String method, String payload) {
+    public Request(String method, String jsonPayload) {
         this.method = method;
-        this.payload = payload;
+        this.jsonPayload = jsonPayload;
     }
 
     public String getMethod() {
@@ -25,31 +31,29 @@ public class Request {
         this.method = method;
     }
 
-    public String getPayload() {
-        return payload;
+    public String getJsonPayload() {
+        return jsonPayload;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public void setJsonPayload(String jsonPayload) {
+        this.jsonPayload = jsonPayload;
     }
 
     public void writeTo(OutputStream os) throws IOException {
-        // todo
-        os.write((method + System.lineSeparator() + payload + System.lineSeparator()).getBytes());
+        os.write((method + System.lineSeparator() + jsonPayload + System.lineSeparator()).getBytes());
     }
 
     public void readFrom(InputStream is) throws IOException {
-        // todo
         var br = new BufferedReader(new InputStreamReader(is));
         method = br.readLine();
-        payload = br.readLine();
+        jsonPayload = br.readLine();
     }
 
     @Override
     public String toString() {
-        return "Message{" +
-                "header='" + method + '\'' +
-                ", body='" + payload + '\'' +
+        return "Request{" +
+                "method='" + method + '\'' +
+                ", jsonPayload='" + jsonPayload + '\'' +
                 '}';
     }
 }

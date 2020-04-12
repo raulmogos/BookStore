@@ -15,12 +15,9 @@ public class TCPClient {
         ) {
             System.out.println("sendAndReceive - sending request: " + request);
             request.writeTo(os);
-
-            System.out.println("sendAndReceive - received response: ");
             Request response = new Request();
             response.readFrom(is);
-            System.out.println(response);
-
+            System.out.println("sendAndReceive - received response: " + response);
             return response;
         } catch (IOException e) {
             throw new TcpConnectionError("error connection to server " + e.getMessage(), e);
