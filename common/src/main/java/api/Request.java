@@ -12,9 +12,6 @@ public class Request {
     private String method;
     private String jsonPayload;
 
-    // @ Moldovanu Dragos - check this
-    // https://www.w3schools.in/json/json-java/
-
     public Request() {
     }
 
