@@ -42,8 +42,8 @@ public class Helpers {
             try {
                 String payload = request.getJsonPayload();
                 JSONObject jsonObject = (JSONObject) JSONValue.parse(payload);
-                Long bookID = Long.parseLong(jsonObject.get("firstname").toString());
-                Long clientID = Long.parseLong(jsonObject.get("lastname").toString());
+                Long bookID = Long.parseLong(jsonObject.get("bookID").toString());
+                Long clientID = Long.parseLong(jsonObject.get("clientID").toString());
                 Future<String> response = service.addPurchase(bookID, clientID);
                 return new Request(Request.SUCCESS_STATUS, response.get());
             } catch (Exception e) {
