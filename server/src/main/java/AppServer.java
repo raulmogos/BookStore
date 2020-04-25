@@ -21,10 +21,15 @@ public class AppServer {
     public static void main(String[] args) {
         System.out.println("started server");
 
-        // DATABASE
-        Repository<Long, Book> bookRepository = new BookDatabaseRepository();
-        Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
-        Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
+        //// DATABASE
+        //Repository<Long, Book> bookRepository = new BookDatabaseRepository();
+        //Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
+        //Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
+
+        // FILE TXT
+        Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
+        Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
+        Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
 
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
 
