@@ -5,7 +5,6 @@ import models.Purchase;
 import models.validation.BookValidator;
 import models.validation.ClientValidator;
 import models.validation.PurchaseValidator;
-import repository.InMemoryRepository;
 import repository.Repository;
 import repository.database.BookDatabaseRepository;
 import repository.database.ClientDatabaseRepository;
@@ -13,27 +12,41 @@ import repository.database.PurchaseDatabaseRepository;
 import repository.file_repositories.BookFileRepository;
 import repository.file_repositories.ClientFileRepository;
 import repository.file_repositories.PurchaseFileRepository;
-import ui.Console;
 
-public class Main {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+public class AppServer {
     public static void main(String[] args) {
-        //// XML
-        //Repository<Long, Book> bookRepository = new BookXMLRepository(new BookValidator());
-        //Repository<Long, Client> clientRepository = new ClientXMLRepository(new ClientValidator());
-        //Repository<Long, Purchase> purchaseRepository = new PurchaseXMLRepository(new PurchaseValidator());
+        System.out.println("started server");
 
-        //// FILE
+        //// DATABASE
+        //Repository<Long, Book> bookRepository = new BookDatabaseRepository();
+        //Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
+        //Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
+
+        // FILE TXT
         Repository<Long, Book> bookRepository = new BookFileRepository(new BookValidator());
         Repository<Long, Client> clientRepository = new ClientFileRepository(new ClientValidator());
         Repository<Long, Purchase> purchaseRepository = new PurchaseFileRepository(new PurchaseValidator());
 
-        //// Database
-//        Repository<Long, Book> bookRepository = new BookDatabaseRepository();
-//        Repository<Long, Client> clientRepository = new ClientDatabaseRepository();
-//        Repository<Long, Purchase> purchaseRepository = new PurchaseDatabaseRepository();
-
         Controller controller = new Controller(bookRepository, clientRepository, purchaseRepository);
-        Console console = new Console(controller);
-        console.run();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        ServerService service = new ServerService(executorService, controller);
+
+        TCPServer server = new TCPServer(executorService);
+
+        Helpers.addHandlersToServer(server, service);
+
+
+        server.startServer();
+
+        executorService.shutdown();
+
+
+        System.out.println("server stopped");
     }
 }
